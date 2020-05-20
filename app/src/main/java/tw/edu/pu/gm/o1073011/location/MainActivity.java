@@ -8,12 +8,17 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
+    //可自行設定請求代碼，區別用
+    final int REQUEST_FINE_LOCATION_PERMISSION = 102;
+
     LocationManager locationManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CheckPermission();
     }
 
     @Override

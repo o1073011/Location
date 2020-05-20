@@ -3,6 +3,7 @@ package tw.edu.pu.gm.o1073011.location;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 // 請求授權：第一個參數是請求授權的名稱，第二個參數是請求代碼
                 requestPermissions(
-                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        new String[]{Manifest.permission.RECORD_AUDIO},
                         REQUEST_FINE_LOCATION_PERMISSION);
             }
         }

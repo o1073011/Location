@@ -41,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         REQUEST_FINE_LOCATION_PERMISSION);
             }
         }
+        else{
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    0, 0, this);
+        }
     }
 
     @Override
@@ -52,7 +57,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onLocationChanged(Location location) {
-
+        if (location != null) {
+        //    String msg = "緯度：" + location.getLatitude() +
+        //            "\n經度：" + location.getLongitude();
+        //    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Intent it = new Intent();
+        it.setAction(Intent.ACTION_VIEW);
+        Uri u = Uri.parse("geo:" + String.valueOf(location.getLatitude())
+                + "," + String.valueOf(location.getLongitude()) );
+        it.setData(u);
+        startActivity(it);
+    }
     }
 
     @Override
@@ -62,12 +77,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public void onProviderEnabled(String provider) {
-
+        Toast.makeText(getBaseContext(), "GPS已經開啟", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onProviderDisabled(String provider) {
-
+        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(intent);
+        Toast.makeText(getBaseContext(), "GPS已關閉", Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -82,14 +99,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                         android.Manifest.permission.ACCESS_FINE_LOCATION)) {
                     Toast.makeText(this, "請設定允許位置資訊授權，才能定位",
                             Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Toast.makeText(this, "本App需允許位置授權，才能定位",
-                            Toast.LENGTH_LONG).show();
                     Intent it = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri u = Uri.fromParts("package", getPackageName(), null);
                     it.setData(u);
                     startActivity(it);
+                }
+                else{
+                    Toast.makeText(this, "本App需允許位置授權，才能定位",
+                            Toast.LENGTH_LONG).show();
+
                 }
                 finish();
             }

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -22,9 +23,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            Toast.makeText(this, "本App需允許位置授權，才能定位",
-                    Toast.LENGTH_LONG).show();
-            finish();
+            //Toast.makeText(this, "本App需允許位置授權，才能定位",
+            //        Toast.LENGTH_LONG).show();
+            //finish();
+
+            // 如果裝置版本是6.0（包含）以上
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                // 請求授權：第一個參數是請求授權的名稱，第二個參數是請求代碼
+                requestPermissions(
+                        new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        REQUEST_FINE_LOCATION_PERMISSION);
+            }
         }
     }
 
